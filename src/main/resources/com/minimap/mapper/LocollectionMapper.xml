@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minimap.dao.LocollectionMapper">
+  <resultMap id="BaseResultMap" type="com.minimap.pojo.Locollection">
+    <id column="locid" jdbcType="INTEGER" property="locid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    locid, name, userid
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from loc_collection
+    where locid = #{locid,jdbcType=INTEGER}
+  </select>
+
+  <!--根据userid查询集合-->
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from loc_collection
+    where userid = #{userid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from loc_collection
+    where locid = #{locid,jdbcType=INTEGER}
+  </delete>
+
+  <!--插入数据-->
+  <insert id="insert" parameterType="com.minimap.pojo.Locollection">
+    insert into loc_collection (locid, name, userid
+      )
+    values (#{locid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.minimap.pojo.Locollection">
+    insert into loc_collection
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="locid != null">
+        locid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="locid != null">
+        #{locid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.minimap.pojo.Locollection">
+    update loc_collection
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where locid = #{locid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.minimap.pojo.Locollection">
+    update loc_collection
+    set name = #{name,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR}
+    where locid = #{locid,jdbcType=INTEGER}
+  </update>
+</mapper>

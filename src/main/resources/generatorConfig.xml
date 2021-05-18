@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--修改处1：classPathEntry location写mysql驱动类地址-->
+    <classPathEntry location="D:\apache\mavenRepository\mysql\mysql-connector-java\8.0.22\mysql-connector-java-8.0.22.jar" />
+
+    <!--修改处2：jdbc驱动配置-->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!--不生成注释-->
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/minimap?serverTimezone=UTC"
+                        userId="root"
+                        password="123456">
+            <!--解决mysql8.0以后重复生成所有表的问题-->
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!--修改处3：修改生成的目标位置-->
+        <javaModelGenerator targetPackage="com.minimap.pojo" targetProject="src\main\java"/>
+        <!--修改处4：修改生成的目标位置-->
+        <sqlMapGenerator targetPackage="com.minimap.mapper"  targetProject="src\main\resources"/>
+        <!--修改处5：修改生成的目标位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.minimap.dao"  targetProject="src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!--修改处6：修改生成的目标位置-->
+        <table tableName="loc_collection" domainObjectName="Locollection" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"></table>
+        <table tableName="t_users" domainObjectName="User" enableCountByExample="false" enableSelectByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"></table>
+    </context>
+</generatorConfiguration>

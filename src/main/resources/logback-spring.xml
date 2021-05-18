@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <!--log日志配置-->
+    <property name="LOG_ROOT_LEVEL" value="INFO" />
+    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss}  %highlight(%-5p) [ %t ] --- %yellow(%c{36}) : %m%n"/>
+    <property name="FILE_LOG_PATTERN" value="%date{HH:mm:ss.SSS}  %-5p [ %thread ] --- %logger : %msg%n"/>
+    <!--1. value=“logs” – 表示保存到程序运行目录，在tomcat中为bin目录
+    2. value=“/logs” – 表示保存到系统目录
+    3. value=“../logs” – 表示保存到程序运行目录的父目录-->
+    <property name="FILE_PATH" value="../logs"/>
+
+    <!-- 异步输出至文件 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${FILE_PATH}/MiniMap-Server.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref="FILE"/>
+    </appender>
+
+    <!-- 打印请求日志 -->
+    <appender name="REQUEST_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <!--  <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${FILE_PATH}/MiniMap-Server.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>-->
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 输出到控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <logger name="com.cmh.aop.controller" level="INFO">
+        <appender-ref ref="REQUEST_FILE" />
+    </logger>
+
+    <root level="${LOG_ROOT_LEVEL}">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ASYNC_FILE" />
+    </root>
+</configuration>

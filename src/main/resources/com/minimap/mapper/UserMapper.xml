@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minimap.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.minimap.pojo.User">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="face_image" jdbcType="VARCHAR" property="faceImage" />
+    <result column="face_image_big" jdbcType="VARCHAR" property="faceImageBig" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="qrcode" jdbcType="VARCHAR" property="qrcode" />
+    <result column="cid" jdbcType="VARCHAR" property="cid" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, username, password, face_image, face_image_big, nickname, qrcode, cid
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_users
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <!--根据用户名select对象-->
+  <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_users
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_users
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <!--插入user-->
+  <insert id="insert" parameterType="com.minimap.pojo.User">
+    insert into t_users (id, username, password, 
+      face_image, face_image_big, nickname, 
+      qrcode, cid)
+    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{faceImage,jdbcType=VARCHAR}, #{faceImageBig,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{qrcode,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.minimap.pojo.User">
+    insert into t_users
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="faceImage != null">
+        face_image,
+      </if>
+      <if test="faceImageBig != null">
+        face_image_big,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="qrcode != null">
+        qrcode,
+      </if>
+      <if test="cid != null">
+        cid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="faceImage != null">
+        #{faceImage,jdbcType=VARCHAR},
+      </if>
+      <if test="faceImageBig != null">
+        #{faceImageBig,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcode != null">
+        #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.minimap.pojo.User">
+    update t_users
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="faceImage != null">
+        face_image = #{faceImage,jdbcType=VARCHAR},
+      </if>
+      <if test="faceImageBig != null">
+        face_image_big = #{faceImageBig,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcode != null">
+        qrcode = #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null">
+        cid = #{cid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.minimap.pojo.User">
+    update t_users
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      face_image = #{faceImage,jdbcType=VARCHAR},
+      face_image_big = #{faceImageBig,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      qrcode = #{qrcode,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
